@@ -16,8 +16,16 @@ const app = express();
 
 // 1. Security Middlewares
 app.use(helmet());
-app.use(cors());
-app.options('*', cors());
+const corsOptions = {
+  origin: '*', // or specify the exact domain(s)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable pre-flight for all routes
 
 // 2. Request Logging
 if (process.env.NODE_ENV === 'development') {
@@ -43,9 +51,14 @@ app.use('/api', limiter);
 // 6. Routes
 app.use('/api/v1', require('./routes'));
 
-// 7. API Documentation
 app.use('/api-docs', 
   swaggerUi.serve, 
+  (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  },
   swaggerUi.setup(swaggerDocument, {
     explorer: true,
     customSiteTitle: 'Product Catalog API'
