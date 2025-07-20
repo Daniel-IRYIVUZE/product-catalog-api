@@ -5,61 +5,70 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green?logo=mongodb)
 ![Swagger](https://img.shields.io/badge/Swagger-3.0-lightgreen?logo=swagger)
 
-A complete **RESTful API** for **e-commerce product management**, with advanced inventory tracking, search functionality, and comprehensive documentation.
+A complete **RESTful API** for **e-commerce product management**, featuring advanced inventory tracking, flexible product variants, search and filtering, and auto-generated documentation.
 
-## Video Walkthrough
+## 🎥 Video Walkthrough
 
-[![API Demo Video](https://img.shields.io/badge/Watch_Demo-Video_Link-red)](https://youtu.be/your-video-link-here)
+[![API Demo Video](https://img.shields.io/badge/Watch_Demo-Video_Link-red)](https://youtu.be/PubWfMPZ7Tw)
+
+---
 
 ## Features
 
-* **Complete CRUD Operations** for products and categories.
-* **Product Variants** with inventory tracking (size, color).
-* **Advanced Search** with filtering (name, category, price range).
-* **Discount Pricing** system with percentage-based discounts.
-* **Real-time Inventory** management.
-* **Comprehensive Documentation** with Swagger UI.
-* **Robust Error Handling** and input validation.
+* **Full CRUD** operations for products and categories
+* **Inventory Management** with product variants (e.g., size, color)
+* **Advanced Filtering/Search** by name, category, price, and availability
+* **Discount Pricing** support
+* **Real-time Stock Update**
+* **Swagger UI** documentation
+* **Input Validation & Error Handling** for robust API integrity
+
+---
 
 ## Project Structure
 
 ```
 product-catalog-api/
-├── config/           # Configuration files (logger, db)
-├── controllers/      # Route controllers
-├── db/               # Database connection logic
-├── endpoints/        # API endpoint definitions
-├── middleware/       # Custom middleware
-├── models/           # MongoDB schemas
-├── routes/           # Express router definitions
-├── swagger/          # API documentation
-├── utils/            # Utility functions
-├── validations/      # Request validation schemas
-├── .env              # Environment configuration
-├── app.js            # Express application setup
-├── generate-swagger.js # Documentation generator
-├── package.json      # Project dependencies
-├── README.md         # This documentation
-├── server.js         # Server entry point
-├── swagger.json      # OpenAPI specification
-└── test.js           # Integration tests
+├── config/             # App configuration (e.g., logger, constants)
+├── controllers/        # Route logic for product/category/report
+├── middleware/         # Error handlers, logging, etc.
+├── models/             # Mongoose schemas
+├── node_modules/       # Node dependencies
+├── routes/             # Express route definitions
+│   ├── categories.js
+│   ├── products.js
+│   ├── reports.js
+│   └── index.js        # Route entry point
+├── utils/              # Helper functions/utilities
+├── validations/        # Joi validation schemas
+├── .env                # Environment variables
+├── app.js              # Express app setup
+├── generate-swagger.js # Script to auto-generate Swagger docs
+├── package.json        # Project metadata & dependencies
+├── server.js           # Main server entry point
+├── swagger.js          # Swagger config
+├── swagger.json        # Generated OpenAPI spec
+├── test.js             # Simple test runner
+└── README.md           # Project documentation
 ```
+
+---
 
 ## Setup & Installation
 
 ### Prerequisites
 
-Before getting started, make sure you have the following installed:
+Ensure you have the following installed:
 
-* **Node.js 18+**: For backend development.
-* **MongoDB**: Either MongoDB Atlas (cloud) or a local MongoDB instance.
-* **Git**: For version control and cloning the repository.
+* **Node.js v18+**
+* **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
+* **Git**
 
-### Installation Steps
+---
+
+### 🚀 Installation
 
 #### 1. Clone the repository
-
-First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/Daniel-IRYIVUZE/product-catalog-api.git
@@ -68,198 +77,132 @@ cd product-catalog-api
 
 #### 2. Install dependencies
 
-Install all the necessary dependencies by running:
-
 ```bash
 npm install
 ```
 
-#### 3. Configure environment variables
+#### 3. Configure `.env`
 
-To set up environment variables, follow these steps:
+```bash
+cp .env.example .env
+```
 
-1. **Copy the example environment configuration** to create a `.env` file:
+Fill in:
 
-   ```bash
-   cp .env.example .env
-   ```
+```env
+MONGODB_URI=mongodb://localhost:27017/product-catalog
+JWT_SECRET=your-jwt-secret-key
+PORT=3000
+```
 
-2. **Edit the `.env` file** with your MongoDB credentials and other configurations. Here is a sample of what it should contain:
-
-   ```env
-   # MongoDB connection string
-   MONGODB_URI=mongodb://localhost:27017/product-catalog
-
-   # Secret key for JWT (JSON Web Tokens)
-   JWT_SECRET=your-jwt-secret-key
-
-   # Port on which the app will run
-   PORT=3000
-   ```
-
-#### 4. Generate Swagger Documentation
-
-The Swagger documentation is auto-generated using `swagger-jsdoc`. To regenerate or update the documentation manually, run:
+#### 4. Generate Swagger Docs
 
 ```bash
 node generate-swagger.js
 ```
 
-#### 5. Start the development server
-
-To start the server in **development mode**, run:
+#### 5. Start the Server
 
 ```bash
 npm run dev
 ```
 
-#### 6. For production
-
-When ready to deploy in production, use:
+#### 6. Production
 
 ```bash
 npm start
 ```
 
+---
+
 ## API Documentation
 
 ### Base URL
-
-All API endpoints are available under the base URL:
 
 ```
 http://localhost:3000/api/v1
 ```
 
+---
+
 ### Categories Endpoints
 
-| Method | Endpoint          | Description          | Status Codes  |
-| ------ | ----------------- | -------------------- | ------------- |
-| POST   | `/categories`     | Create new category  | 201, 400      |
-| GET    | `/categories`     | List all categories  | 200           |
-| GET    | `/categories/:id` | Get category details | 200, 404      |
-| PATCH  | `/categories/:id` | Update category      | 200, 400, 404 |
-| DELETE | `/categories/:id` | Delete category      | 204, 404      |
+| Method | Endpoint          | Description         |
+| ------ | ----------------- | ------------------- |
+| POST   | `/categories`     | Create category     |
+| GET    | `/categories`     | List all categories |
+| GET    | `/categories/:id` | Get single category |
+| PATCH  | `/categories/:id` | Update a category   |
+| DELETE | `/categories/:id` | Delete a category   |
 
-**Example Request:**
-
-```http
-POST /api/v1/categories
-Content-Type: application/json
-
-{
-  "name": "Electronics",
-  "description": "All electronic devices"
-}
-```
-
-**Example Response:**
-
-```json
-{
-  "_id": "651a8b5c7d8a1b2c3d4e5f6a",
-  "name": "Electronics",
-  "description": "All electronic devices",
-  "createdAt": "2023-10-01T12:00:00.000Z"
-}
-```
+---
 
 ### Products Endpoints
 
-| Method | Endpoint              | Description                    | Status Codes  |
-| ------ | --------------------- | ------------------------------ | ------------- |
-| POST   | `/products`           | Create new product             | 201, 400      |
-| GET    | `/products`           | List all products (filterable) | 200           |
-| GET    | `/products/:id`       | Get product details            | 200, 404      |
-| PATCH  | `/products/:id`       | Update product                 | 200, 400, 404 |
-| DELETE | `/products/:id`       | Delete product                 | 204, 404      |
-| PATCH  | `/products/:id/stock` | Update inventory levels        | 200, 400, 404 |
+| Method | Endpoint              | Description        |
+| ------ | --------------------- | ------------------ |
+| POST   | `/products`           | Create product     |
+| GET    | `/products`           | Get all products   |
+| GET    | `/products/:id`       | Get single product |
+| PATCH  | `/products/:id`       | Update product     |
+| DELETE | `/products/:id`       | Delete product     |
+| PATCH  | `/products/:id/stock` | Update stock count |
 
-**Filtering Options:**
-
-```bash
-GET /products?search=phone&category=electronics&minPrice=100&maxPrice=1000&inStock=true
-```
-
-**Example Request with Variants:**
-
-```http
-POST /api/v1/products
-Content-Type: application/json
-
-{
-  "name": "Premium Headphones",
-  "price": 299.99,
-  "category": "651a8b5c7d8a1b2c3d4e5f6a",
-  "variants": [
-    {
-      "name": "Black",
-      "sku": "HP-BLK-001",
-      "stockCount": 100,
-      "additionalCost": 0
-    }
-  ],
-  "discount": 15
-}
-```
-
-## Interactive Documentation
-
-You can access the live Swagger UI for interactive API documentation at:
+**Example Search Query:**
 
 ```
-http://localhost:3000/api-docs
+/products?search=phone&category=electronics&minPrice=100&maxPrice=500&inStock=true
 ```
 
-## Testing
+---
 
-### Automated Tests
+### Testing
 
-Run the integration tests with the following command:
+#### Run All Tests
 
 ```bash
 node test.js
 ```
 
-### Manual Testing with Postman
+#### Manual Testing with Postman
 
-1. Import the Postman collection from `/docs/Product_Catalog_API.postman_collection.json`
-2. Set environment variables in Postman:
+* Import the collection from: `docs/Product_Catalog_API.postman_collection.json`
+* Example Postman environment:
 
-   ```json
-   {
-     "base_url": "http://localhost:3000/api/v1",
-     "auth_token": "your-jwt-token-here"
-   }
-   ```
+```json
+{
+  "base_url": "http://localhost:3000/api/v1",
+  "auth_token": "your-jwt-token"
+}
+```
 
-### Example cURL Commands
+---
 
-You can test the endpoints using `cURL`:
+### Example cURL
 
 ```bash
-# Get all products
-curl -X GET "http://localhost:3000/api/v1/products"
+curl -X GET http://localhost:3000/api/v1/products
 
-# Create new category
-curl -X POST "http://localhost:3000/api/v1/categories" \
+curl -X POST http://localhost:3000/api/v1/categories \
   -H "Content-Type: application/json" \
-  -d '{"name":"Furniture","description":"Home furniture"}'
+  -d '{"name":"Furniture","description":"Home items"}'
 ```
+
+---
 
 ## Limitations
 
-1. **Authentication**: Currently not implemented. In production, JWT (JSON Web Token) will be used for authentication.
-2. **Image Uploads**: Currently, the API only accepts image URLs. Future implementation will integrate services like Cloudinary or AWS S3 for direct image uploads.
-3. **Pagination**: Default limit of 100 items per page.
-4. **Performance**: No caching layer implemented.
-5. **Payments**: No payment gateway integration for processing transactions.
+* No authentication yet (JWT planned)
+* Image uploads via URL only (Cloudinary planned)
+* Pagination with default limit 100
+* No caching or rate limiting
+* No payment integrations
+
+---
 
 ## Contact
 
-For questions or support, please contact:
-
-* **Daniel IRYIVUZE**
+* **Name**: Daniel IRYIVUZE
 * **Email**: [d.iryivuze@alustudent.com](mailto:d.iryivuze@alustudent.com)
 * **GitHub**: [Daniel-IRYIVUZE](https://github.com/Daniel-IRYIVUZE)
 
